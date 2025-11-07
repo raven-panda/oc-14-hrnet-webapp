@@ -2,14 +2,16 @@ import { Link } from "react-router-dom";
 import SelectMenu from "../components/form/SelectMenu";
 import InputControl from "../components/form/TextInput";
 import { statesSelectData } from "../components/select-data/StatesSelectData";
+import useFormSuccessModal from "../components/form/useFormSuccessModal";
 
 export default function CreateEmployeePage() {
+  const { openSuccessModal } = useFormSuccessModal();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
 
     console.log({formData});
-    
+    openSuccessModal("Employee created !");
   };
 
   return (

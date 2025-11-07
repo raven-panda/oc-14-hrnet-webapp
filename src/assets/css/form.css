@@ -9,7 +9,8 @@ label {
   margin-bottom: 10px;
 }
 
-select {
+select, input, fieldset {
+  box-sizing: border-box;
   width: 100%;
 }
 
