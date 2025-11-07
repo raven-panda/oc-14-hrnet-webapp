@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SelectMenu from "../components/form/SelectMenu";
-import { statesSelectData } from "../components/select-data/StatesSelectData";
 import InputControl from "../components/form/TextInput";
+import { statesSelectData } from "../components/select-data/StatesSelectData";
 
 export default function CreateEmployeePage() {
 
@@ -13,7 +13,7 @@ export default function CreateEmployeePage() {
   };
 
   return (
-    <body className="container">
+    <>
       <header className="container">
         <h1>HRnet</h1>
         <Link to="/employee-list">View Current Employees</Link>
@@ -65,10 +65,9 @@ export default function CreateEmployeePage() {
             />
           </div>
           
-          <button type="submit">Save</button>
+          <button type="submit" className="submit-button">Save</button>
         </form>
-        <div id="confirmation" className="modal">Employee Created!</div>
       </main>
-    </body>
+    </>
   );
 }

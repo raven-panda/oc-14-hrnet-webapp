@@ -32,13 +32,13 @@ export default function EmployeesListPage() {
   ];
 
   return (
-    <body className="container">
+    <>
       <header className="container">
         <h1>Current Employees</h1>
       </header>
       <main className="container">
         <FilterableTable columns={columns} />
       </main>
-    </body>
+    </>
   );
 }

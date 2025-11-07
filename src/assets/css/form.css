@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+}
+
+select {
+  width: 100%;
+}
+
+button.submit-button {
+  padding: 8px;
+  margin: 12px auto 0;
+}
