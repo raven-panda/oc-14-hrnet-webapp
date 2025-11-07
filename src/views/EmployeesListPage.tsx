@@ -37,7 +37,7 @@ export default function EmployeesListPage() {
         <h1>Current Employees</h1>
       </header>
       <main className="container">
-        <FilterableTable columns={columns} />
+        <FilterableTable columns={columns} className="test-table"/>
       </main>
     </>
   );

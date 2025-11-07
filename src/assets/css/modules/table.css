@@ -1,8 +1,5 @@
 .filterable-table {
-  width: 976px;
-}
-
-.filterable-table {
+  width: 100%;
   text-align: center;
 }
 
@@ -14,11 +11,11 @@
   padding: 10px 18px;
 }
 
-.filterable-table tr.odd {
+.filterable-table tr.row-odd {
   background-color: #f9f9f9;
 }
 
-.filterable-table tr.even {
+.filterable-table tr.row-even {
   background-color: #ffffff;
 }
 

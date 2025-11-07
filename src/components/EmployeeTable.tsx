@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import '../assets/css/table.css';
+import '../assets/css/modules/table.css';
 
 export interface FilterableTableColumn {
   name: string;
@@ -10,11 +10,16 @@ export interface FilterableTableData {
 
 interface FilterableTableProps {
   id?: string;
+  className?: string;
   columns: FilterableTableColumn[];
   dataList?: FilterableTableData[];
 }
+/**
+ * @todo Make the table style more customizable
+ */
 export default function FilterableTable({
   id = "filterable-table",
+  className = "",
   columns,
   dataList = [],
 }: FilterableTableProps) {
@@ -52,7 +57,7 @@ export default function FilterableTable({
           Search: <input id="filterable-table-search" name="filterable-table-search" />
         </div>
       </div>
-      <table id={id} className="filterable-table" cellSpacing={0}>
+      <table id={id} className={`filterable-table ${className}`} cellSpacing={0}>
         <thead>
           <tr>
             {columns.map(col => (
@@ -62,11 +67,11 @@ export default function FilterableTable({
         </thead>
         <tbody>
           {dataList.length > 0 ? dataList.map((data, i) => (
-            <tr role="row" className={i % 2 === 0 ? "even" : "odd"}>
+            <tr role="row" className={i % 2 === 0 ? "row-even" : "row-odd"}>
               {data.values.map(value => <td>{value}</td>)}
             </tr>
           )) : (
-            <tr className="odd">
+            <tr className="row-odd">
               <td colSpan={columns.length}>No data available in table</td>
             </tr>
           )}

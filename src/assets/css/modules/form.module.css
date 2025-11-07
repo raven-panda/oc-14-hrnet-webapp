@@ -1,20 +1,20 @@
-form {
+.form {
   display: flex;
   flex-direction: column;
 }
 
-label {
+.form label {
   display: block;
   margin-top: 1rem;
   margin-bottom: 10px;
 }
 
-select, input, fieldset {
+.form select, .form input, .form fieldset {
   box-sizing: border-box;
   width: 100%;
 }
 
-button.submit-button {
+.form button.submitButton {
   padding: 8px;
   margin: 12px auto 0;
 }
