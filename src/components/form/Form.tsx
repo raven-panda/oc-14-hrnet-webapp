@@ -1,5 +1,3 @@
-import type { FormEventHandler } from "react";
-
 export interface FormProps {
-  onSubmit: FormEventHandler<HTMLFormElement>;
+  onSubmit: (formData: Record<string, string | number | object>) => void;
 }

@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
-import '../assets/css/modules/table.css';
+import '../../assets/css/modules/table.css';
 
 export interface FilterableTableColumn {
   name: string;
 }
 export interface FilterableTableData {
-  values: string[];
+  values: string[] | undefined;
 }
 
 interface FilterableTableProps {
@@ -13,6 +13,7 @@ interface FilterableTableProps {
   className?: string;
   columns: FilterableTableColumn[];
   dataList?: FilterableTableData[];
+  isLoading?: boolean;
 }
 /**
  * @todo Make the table style more customizable
@@ -22,6 +23,7 @@ export default function FilterableTable({
   className = "",
   columns,
   dataList = [],
+  isLoading = false,
 }: FilterableTableProps) {
   const [entriesShownNumber, setEntriesShownNumber] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
@@ -66,9 +68,13 @@ export default function FilterableTable({
           </tr>
         </thead>
         <tbody>
-          {dataList.length > 0 ? dataList.map((data, i) => (
+          {isLoading ? (
+            <tr className="row-odd">
+              <td colSpan={columns.length}>Loading data...</td>
+            </tr> 
+          ) : dataList.length > 0 ? dataList.map((data, i) => (
             <tr role="row" className={i % 2 === 0 ? "row-even" : "row-odd"}>
-              {data.values.map(value => <td>{value}</td>)}
+              {data.values?.map(value => <td>{value}</td>)}
             </tr>
           )) : (
             <tr className="row-odd">
