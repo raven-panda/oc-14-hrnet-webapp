@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import '../../assets/css/modules/table.css';
 
 export interface FilterableTableColumn<TDataKey = string> {
@@ -31,9 +31,17 @@ export default function FilterableTable({
   const [entriesShownNumber, setEntriesShownNumber] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const filteredDataList = useMemo(() =>
-    dataList.slice((pageNumber - 1) * entriesShownNumber, entriesShownNumber),
-  [dataList, pageNumber, entriesShownNumber]);
+  const getLastShownElementIndex = useCallback(() => {
+    const lastElementIndex = ((pageNumber - 1) * entriesShownNumber) + entriesShownNumber;
+    if (dataList && lastElementIndex > dataList.length)
+      return dataList.length;
+    else
+      return lastElementIndex;
+  }, [dataList, entriesShownNumber, pageNumber])
+
+  const filteredDataList = useMemo(() => {
+    return dataList.slice((pageNumber - 1) * entriesShownNumber, getLastShownElementIndex());
+  }, [dataList, pageNumber, entriesShownNumber, getLastShownElementIndex]);
 
   const goToPreviousPage = () => {
     if (pageNumber !== 1)
@@ -75,7 +83,7 @@ export default function FilterableTable({
             <tr className="row-odd">
               <td colSpan={columns.length}>Loading data...</td>
             </tr>
-          ) : dataList.length > 0 ? dataList.map((data, i) => (
+          ) : filteredDataList.length > 0 ? filteredDataList.map((data, i) => (
             <tr key={"tableRow_" + i} role="row" className={i % 2 === 0 ? "row-even" : "row-odd"}>
               {columns.map(col => {
                 const value = data?.values[col.dataKey];
@@ -92,7 +100,7 @@ export default function FilterableTable({
         </tbody>
       </table>
       <div className="filterable-table-filters">
-        <div>Showing {filteredDataList.length > 0 ? 1 + (pageNumber - 1) * entriesShownNumber : 0} to {filteredDataList.length} of {dataList.length} entries</div>
+        <div>Showing {filteredDataList.length > 0 ? 1 + (pageNumber - 1) * entriesShownNumber : 0} to {getLastShownElementIndex()} of {dataList.length} entries</div>
         <div>
           <button onClick={goToPreviousPage}>Previous</button>
           {' '}{pageNumber}{' '}
