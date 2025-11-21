@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import styles from '../../../assets/css/modules/form.module.css';
-import { statesSelectData } from '../../select-data/StatesSelectData';
-import type { FormProps } from '../Form';
+import { useState } from 'react';
+import { statesSelectData } from '../../../data/StatesSelectData.ts';
+import { Form, type FormProps } from '../Form';
 import SelectMenu from '../SelectMenu';
 import InputControl from '../TextInput';
 import DatePickerInput from '../DatePickerInput';
 import { format as formatDate } from 'date-format-parse';
+import { DATE_WITH_SLASH_FORMAT } from "../../../data/constants/DateFormat.ts";
 
 export default function CreateEmployeeForm({
   onSubmit
@@ -17,12 +17,12 @@ export default function CreateEmployeeForm({
   }
 
   const handleDateChange = (name: string, value: Date | null) => {
-    const parsedDate = value ? formatDate(value, 'DD/MM/YYYY') : "";
+    const parsedDate = value ? formatDate(value, DATE_WITH_SLASH_FORMAT) : "";
     setFormData({...formData, [name]: parsedDate});
   }
 
   return (
-    <form action="#" noValidate onSubmit={() => onSubmit(formData)} className={styles.form}>
+    <Form onSubmit={() => onSubmit(formData)}>
       <InputControl label="First Name" onChange={handleInputChange} type="text" name="firstName" />
       <InputControl label="Last Name" onChange={handleInputChange} type="text" name="lastName" />
 
@@ -59,8 +59,6 @@ export default function CreateEmployeeForm({
           ]}
         />
       </div>
-      
-      <button type="submit" className={styles.submitButton}>Save</button>
-    </form>
+    </Form>
   )
 }
