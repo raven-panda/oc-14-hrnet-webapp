@@ -1,19 +1,29 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-type AvaiableLocalStorageKey =
+export type AvailableLocalStorageKey =
 | "employeesData";
 
-export function useLocalStorage<TData>(key: AvaiableLocalStorageKey) {
+export function useLocalStorage<TData>(key: AvailableLocalStorageKey) {
   const [data, setData] = useState<TData>();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const updateData = (data: TData) => {
+    localStorage.setItem(key, JSON.stringify(data));
+    setIsLoading(true);
+    retrieveData();
+  }
+
+  const retrieveData = useCallback(() => {
     const rawData = localStorage.getItem(key);
     const parsedData: TData = rawData ? JSON.parse(rawData) : undefined;
 
     setData(parsedData);
     setIsLoading(false);
-  }, [key]);
+  }, [key])
 
-  return { data, isLoading }
+  useEffect(() => {
+    retrieveData();
+  }, [retrieveData]);
+
+  return { data, updateData, isLoading }
 }
