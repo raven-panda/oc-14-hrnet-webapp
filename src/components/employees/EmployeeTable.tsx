@@ -30,18 +30,27 @@ export default function FilterableTable({
 }: FilterableTableProps) {
   const [entriesShownNumber, setEntriesShownNumber] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
+  const [searchString, setSearchString] = useState<string>("");
+
+  // Filter data using the search string and search a match in one of the column
+  const filteredDataList = useMemo(() => {
+    return dataList
+      .filter(data => !searchString || Object.keys(data.values).some(dataKey => data.values[dataKey]?.toLowerCase().includes(searchString.toLowerCase())));
+  }, [searchString, dataList]);
 
   const getLastShownElementIndex = useCallback(() => {
     const lastElementIndex = ((pageNumber - 1) * entriesShownNumber) + entriesShownNumber;
-    if (dataList && lastElementIndex > dataList.length)
-      return dataList.length;
+    if (lastElementIndex > filteredDataList.length)
+      return filteredDataList.length;
     else
       return lastElementIndex;
-  }, [dataList, entriesShownNumber, pageNumber])
+  }, [filteredDataList, entriesShownNumber, pageNumber])
 
-  const filteredDataList = useMemo(() => {
-    return dataList.slice((pageNumber - 1) * entriesShownNumber, getLastShownElementIndex());
-  }, [dataList, pageNumber, entriesShownNumber, getLastShownElementIndex]);
+  // Slice for page filtering
+  const pagedDataList = useMemo(() => {
+    return filteredDataList
+      .slice((pageNumber - 1) * entriesShownNumber, getLastShownElementIndex());
+  }, [filteredDataList, pageNumber, entriesShownNumber, getLastShownElementIndex]);
 
   const goToPreviousPage = () => {
     if (pageNumber !== 1)
@@ -49,7 +58,7 @@ export default function FilterableTable({
   };
 
   const goToNextPage = () => {
-    if (dataList.length > entriesShownNumber * pageNumber)
+    if (filteredDataList.length > entriesShownNumber * pageNumber)
       setPageNumber(pageNumber + 1);
   };
 
@@ -67,7 +76,7 @@ export default function FilterableTable({
           entries
         </div>
         <div>
-          Search: <input id="filterable-table-search" name="filterable-table-search" />
+          Search: <input id="filterable-table-search" name="filterable-table-search" onChange={e => setSearchString(e.target.value)} />
         </div>
       </div>
       <table id={id} className={`filterable-table ${className}`} cellSpacing={0}>
@@ -83,7 +92,7 @@ export default function FilterableTable({
             <tr className="row-odd">
               <td colSpan={columns.length}>Loading data...</td>
             </tr>
-          ) : filteredDataList.length > 0 ? filteredDataList.map((data, i) => (
+          ) : pagedDataList.length > 0 ? pagedDataList.map((data, i) => (
             <tr key={"tableRow_" + i} role="row" className={i % 2 === 0 ? "row-even" : "row-odd"}>
               {columns.map(col => {
                 const value = data?.values[col.dataKey];
@@ -100,7 +109,7 @@ export default function FilterableTable({
         </tbody>
       </table>
       <div className="filterable-table-filters">
-        <div>Showing {filteredDataList.length > 0 ? 1 + (pageNumber - 1) * entriesShownNumber : 0} to {getLastShownElementIndex()} of {dataList.length} entries</div>
+        <div>Showing {pagedDataList.length > 0 ? 1 + (pageNumber - 1) * entriesShownNumber : 0} to {getLastShownElementIndex()} of {filteredDataList.length} entries</div>
         <div>
           <button onClick={goToPreviousPage}>Previous</button>
           {' '}{pageNumber}{' '}
