@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import CreateEmployeeForm from "../components/form/imp/CreateEmployeeForm";
 import useFormSuccessModal from "../components/form/useFormSuccessModal";
+import type { FormDataObject } from "../components/form/Form.tsx";
+import { useEmployees } from "../data/api/hook/useEmployees.ts";
 
 export default function CreateEmployeePage() {
   const { openSuccessModal } = useFormSuccessModal();
+  const { createEmployee } = useEmployees();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const formData = new FormData(e.currentTarget);
+  const onSubmit = (formData: FormDataObject | undefined) => {
+    if (!formData)
+      return;
 
     console.log({formData});
+    createEmployee(formData);
     openSuccessModal("Employee created !");
   };
 

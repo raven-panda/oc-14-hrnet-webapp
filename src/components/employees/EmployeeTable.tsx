@@ -1,11 +1,14 @@
 import { useMemo, useState } from "react";
 import '../../assets/css/modules/table.css';
 
-export interface FilterableTableColumn {
+export interface FilterableTableColumn<TDataKey = string> {
   name: string;
+  dataKey: TDataKey;
 }
 export interface FilterableTableData {
-  values: string[] | undefined;
+  values: {
+    [key in string]: string | undefined;
+  };
 }
 
 interface FilterableTableProps {
@@ -28,7 +31,7 @@ export default function FilterableTable({
   const [entriesShownNumber, setEntriesShownNumber] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const filteredDataList = useMemo(() => 
+  const filteredDataList = useMemo(() =>
     dataList.slice((pageNumber - 1) * entriesShownNumber, entriesShownNumber),
   [dataList, pageNumber, entriesShownNumber]);
 
@@ -63,7 +66,7 @@ export default function FilterableTable({
         <thead>
           <tr>
             {columns.map(col => (
-              <th className="no-sorting" tabIndex={0} aria-controls={id} rowSpan={1} colSpan={1} scope="col">{col.name}</th>
+              <th key={"tableCol_" + col.dataKey} className="no-sorting" tabIndex={0} aria-controls={id} rowSpan={1} colSpan={1} scope="col">{col.name}</th>
             ))}
           </tr>
         </thead>
@@ -71,10 +74,15 @@ export default function FilterableTable({
           {isLoading ? (
             <tr className="row-odd">
               <td colSpan={columns.length}>Loading data...</td>
-            </tr> 
+            </tr>
           ) : dataList.length > 0 ? dataList.map((data, i) => (
-            <tr role="row" className={i % 2 === 0 ? "row-even" : "row-odd"}>
-              {data.values?.map(value => <td>{value}</td>)}
+            <tr key={"tableRow_" + i} role="row" className={i % 2 === 0 ? "row-even" : "row-odd"}>
+              {columns.map(col => {
+                const value = data?.values[col.dataKey];
+                return (
+                  <td key={'colData_' + col.dataKey + i} >{value ?? '-'}</td>
+                );
+              })}
             </tr>
           )) : (
             <tr className="row-odd">

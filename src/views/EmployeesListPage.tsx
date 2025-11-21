@@ -1,43 +1,58 @@
 import { useMemo } from "react";
-import { useEmployeesData } from "../components/employees/EmployeeHooks";
 import FilterableTable, { type FilterableTableColumn, type FilterableTableData } from "../components/employees/EmployeeTable";
+import type { Employee } from "../data/api/definitions/Employee";
+import { useEmployees } from "../data/api/hook/useEmployees.ts";
 
 export default function EmployeesListPage() {
-  const { data, isLoading } = useEmployeesData();
+  const { data, isLoading } = useEmployees();
 
-  const columns: FilterableTableColumn[] = [
+  const columns: FilterableTableColumn<keyof Employee>[] = [
     {
       name: "First Name",
+      dataKey: "firstName",
     },
     {
       name: "Last Name",
+      dataKey: "lastName",
     },
     {
       name: "Start Date",
+      dataKey: "startDate",
     },
     {
       name: "Department",
+      dataKey: "department",
     },
     {
       name: "Date of Birth",
+      dataKey: "birthDate",
     },
     {
       name: "Street",
+      dataKey: "street",
     },
     {
       name: "City",
+      dataKey: "city",
     },
     {
       name: "State",
+      dataKey: "state",
     },
     {
       name: "Zip Code",
+      dataKey: "zipCode",
     },
   ];
 
   const transformedTableData: FilterableTableData[] | undefined = useMemo(() => {
-    return data?.map(obj => ({
-      values: []
+    if (!data)
+      return undefined;
+
+    return data.map(employee => ({
+      values: {
+        ...employee,
+      }
     }));
   }, [data]);
 
