@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import FilterableTable, { type FilterableTableColumn, type FilterableTableData } from "../components/employees/EmployeeTable";
 import type { Employee } from "../data/api/definitions/Employee";
 import { useEmployees } from "../data/api/hook/useEmployees.ts";
+import { format as formatDate } from "date-format-parse";
+import { DATE_WITH_SLASH_FORMAT } from "../data/constants/DateFormat.ts";
 
 export default function EmployeesListPage() {
   const { data, isLoading } = useEmployees();
@@ -52,6 +54,8 @@ export default function EmployeesListPage() {
     return data.map(employee => ({
       values: {
         ...employee,
+        birthDate: formatDate(new Date(employee.birthDate), DATE_WITH_SLASH_FORMAT),
+        startDate: formatDate(new Date(employee.startDate), DATE_WITH_SLASH_FORMAT),
       }
     }));
   }, [data]);
