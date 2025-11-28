@@ -1,8 +1,8 @@
-import { format as formatDate } from 'date-format-parse';
-import { DATE_WITH_SLASH_FORMAT } from "../../constants/DateFormat.ts";
 import type { Employee } from "../../api/definitions/Employee.ts";
+import { jobDepartmentFixture } from "../JobDepartmentFixture.ts";
 import { statesSelectDataFixtures } from "../StatesSelectDataFixtures.ts";
 
+// See https://fakerjs.dev/
 export default class EmployeeGenerator {
   private static firstNames = [
     "James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda",
@@ -27,13 +27,6 @@ export default class EmployeeGenerator {
     "Denver", "Washington"
   ];
 
-  private static counties = [
-    "Los Angeles County", "Cook County", "Harris County", "Maricopa County",
-    "San Diego County", "Orange County", "Miami-Dade County", "Dallas County",
-    "Kings County", "Riverside County", "Queens County", "Clark County", "Tarrant County",
-    "Santa Clara County", "Broward County"
-  ];
-
   private static zipCodes = [
     "10001", "90001", "60601", "77001", "85001", "19101", "78201", "92101",
     "75201", "95101", "73301", "32201", "76101", "43201", "28201", "94101",
@@ -56,8 +49,8 @@ export default class EmployeeGenerator {
     return this.cities[Math.floor(Math.random() * this.cities.length)];
   }
 
-  private static getRandomCounty() {
-    return this.counties[Math.floor(Math.random() * this.counties.length)];
+  private static getRandomJobDepartment() {
+    return jobDepartmentFixture[Math.floor(Math.random() * jobDepartmentFixture.length)].value;
   }
 
   private static getRandomUsState() {
@@ -71,13 +64,13 @@ export default class EmployeeGenerator {
   private static getRandomBirthDate() {
     const date = new Date();
     date.setDate(date.getDate() - (Math.floor(Math.random() * 4000) + 22 * 365));
-    return formatDate(date, DATE_WITH_SLASH_FORMAT);
+    return date.toISOString();
   }
 
   private static getRandomStartDate() {
     const date = new Date();
     date.setDate(date.getDate() - Math.floor(Math.random() * 2000) + 1);
-    return formatDate(date, DATE_WITH_SLASH_FORMAT);
+    return date.toISOString();
   }
 
   private static getRandomStreetSuffix() {
@@ -97,7 +90,7 @@ export default class EmployeeGenerator {
         lastName: EmployeeGenerator.getRandomFirstName(),
         street: EmployeeGenerator.getRandomStreet(),
         city: EmployeeGenerator.getRandomCity(),
-        department: EmployeeGenerator.getRandomCounty(),
+        department: EmployeeGenerator.getRandomJobDepartment(),
         state: EmployeeGenerator.getRandomUsState(),
         zipCode: EmployeeGenerator.getRandomZipCode(),
         birthDate: EmployeeGenerator.getRandomBirthDate(),
