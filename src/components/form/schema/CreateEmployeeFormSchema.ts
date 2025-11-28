@@ -51,20 +51,20 @@ export default function getCreateEmployeeForm({
         street: {
           label: 'Street',
           defaultValue: '',
-          autocomplete: 'street-address',
+          autocomplete: 'address-line1',
           validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
         },
         city: {
           label: 'City',
           defaultValue: '',
-          autocomplete: '',
+          autocomplete: 'address-level2',
           validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
         },
         state: {
           label: 'State',
           type: 'select',
           defaultValue: '',
-          autocomplete: '',
+          autocomplete: 'off',
           validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
           selectOptions: usStatesData?.map(data => ({
             text: data.name,
@@ -88,7 +88,7 @@ export default function getCreateEmployeeForm({
           label: 'Department',
           type: 'select',
           defaultValue: '',
-          autocomplete: '',
+          autocomplete: 'off',
           validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
           selectOptions: jobDepartmentData
         },
