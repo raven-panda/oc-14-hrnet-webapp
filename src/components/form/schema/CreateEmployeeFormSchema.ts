@@ -3,6 +3,7 @@ import type { FormSchema } from "../Form.tsx";
 import { ZodValidationMessage } from "../../../data/constants/ZodValidationMessage.ts";
 import type { USState } from '../../../data/api/definitions/USStates.ts';
 import type { JobDepartment } from '../../../data/api/definitions/JobDepartment.ts';
+import { ZodValidationUtils } from '../ZodValidationUtils.ts';
 
 export default function getCreateEmployeeForm({
   usStatesData,
@@ -32,7 +33,9 @@ export default function getCreateEmployeeForm({
           label: 'Date of Birth',
           type: 'date',
           defaultValue: '',
-          validator: z.string().min(2, ZodValidationMessage.string.dateNotPicked),
+          validator: z.string()
+            .nonempty(ZodValidationMessage.string.dateNotPicked)
+            .refine(ZodValidationUtils.dateMustBeBeforeToday, { message: ZodValidationMessage.string.dateMustBeBeforeToday }),
         },
         startDate: {
           label: 'Start Date',
@@ -65,7 +68,7 @@ export default function getCreateEmployeeForm({
           type: 'select',
           defaultValue: '',
           autocomplete: 'off',
-          validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
+          validator: z.string().nonempty(ZodValidationMessage.string.selectNotPicked),
           selectOptions: usStatesData?.map(data => ({
             text: data.name,
             value: data.abbreviation,
@@ -75,7 +78,7 @@ export default function getCreateEmployeeForm({
           label: 'Zip Code',
           defaultValue: '',
           autocomplete: '',
-          validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
+          validator: z.string().regex(/^\d+$/, ZodValidationMessage.address.invalidZipCode).min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
         },
       },
     },
@@ -88,7 +91,7 @@ export default function getCreateEmployeeForm({
           type: 'select',
           defaultValue: '',
           autocomplete: 'off',
-          validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
+          validator: z.string().nonempty(ZodValidationMessage.string.selectNotPicked),
           selectOptions: jobDepartmentData
         },
       },
