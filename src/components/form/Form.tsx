@@ -3,7 +3,6 @@ import { type StandardSchemaV1Issue, useForm } from '@tanstack/react-form';
 import { extractFormSchemaValues, formatFieldValidators, isFieldRequired, zodErrorsToFieldIssues, } from './FormUtils';
 import styles from '../../assets/css/modules/form.module.css';
 import z, { type ZodType } from 'zod';
-import "react-datepicker/dist/react-datepicker.css";
 import SelectMenu, { type SelectMenuOption } from "./SelectMenu";
 
 export type FormDataValue = string | number | boolean | object;
