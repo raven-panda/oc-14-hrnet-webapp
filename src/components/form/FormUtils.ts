@@ -54,15 +54,13 @@ export function isFieldRequired(validator?: ZodType): boolean {
 
 export function zodErrorsToFieldIssues(err: z.ZodError<any>): Record<string, StandardSchemaV1Issue | undefined> {
   const fields: Record<string, StandardSchemaV1Issue | undefined> = {};
-  if ('errors' in err) {
-    (err.errors as any[]).forEach((e: any) => {
-      const key = String(e.path?.[0] ?? "");
-      // StandardSchemaV1Issue a typiquement { message?: string; ... }
-      // on fournit au minimum message (ajoute d'autres props si nécessaire)
-      fields[key] = { message: e.message } as StandardSchemaV1Issue;
-    });
+  
+  (err.issues as any[]).forEach((e: any) => {
+    const key = String(e.path?.[0] ?? "");
+    // StandardSchemaV1Issue a typiquement { message?: string; ... }
+    // on fournit au minimum message (ajoute d'autres props si nécessaire)
+    fields[key] = { message: e.message } as StandardSchemaV1Issue;
+  });
+    
   return fields;
-  } else {
-    return {};
-  }
 }
