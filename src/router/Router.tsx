@@ -1,14 +1,20 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CreateEmployeePage from "../views/CreateEmployeePage";
 import EmployeesListPage from "../views/EmployeesListPage";
 
-export default function AppRouter() {
+export function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<CreateEmployeePage />} />
-        <Route path="/employee-list" element={<EmployeesListPage />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
+  );
+}
+
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<CreateEmployeePage />} />
+      <Route path="/employee-list" element={<EmployeesListPage />} />
+    </Routes>
   );
 }

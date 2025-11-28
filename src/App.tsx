@@ -1,11 +1,12 @@
+import type { ReactNode } from 'react';
 import './assets/css/index.css';
 import { ModalProvider } from './components/modal/ModalProvider';
-import AppRouter from './router/Router';
+import { AppRouter } from './router/Router';
 
-function App() {
+function App({ router = <AppRouter /> }: { router?: ReactNode }) {
   return (
     <ModalProvider>
-      <AppRouter />
+      {router}
     </ModalProvider>
   )
 }
