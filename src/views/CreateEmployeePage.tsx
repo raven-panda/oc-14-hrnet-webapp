@@ -1,20 +1,43 @@
 import { Link } from "react-router-dom";
-import CreateEmployeeForm from "../components/form/imp/CreateEmployeeForm";
 import useFormSuccessModal from "../components/form/useFormSuccessModal";
-import type { FormDataObject } from "../components/form/Form.tsx";
 import { useEmployees } from "../data/api/hook/useEmployees.ts";
+import { Form, type FormDataObject } from "../components/form/Form.tsx";
+import getCreateEmployeeForm from "../components/form/schema/CreateEmployeeFormSchema.ts";
+import z from "zod";
+import useUSStatesData from "../data/api/hook/useUSStatesData.ts";
+import useJobDepartmentData from "../data/api/hook/useJobDepartmentData.ts";
+
+const EmployeeObject = z.object({
+  birthDate: z.string(),
+  city: z.string(),
+  department: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  startDate: z.string(),
+  state: z.string(),
+  street: z.string(),
+  zipCode: z.string()
+})
 
 export default function CreateEmployeePage() {
   const { openSuccessModal } = useFormSuccessModal();
   const { createEmployee } = useEmployees();
+  const { data: usStatesData, isLoading: isUsStatesLoading } = useUSStatesData();
+  const { data: jobDepartmentData, isLoading: isJobDepartmentsLoading } = useJobDepartmentData();
 
-  const onSubmit = (formData: FormDataObject | undefined) => {
+  const onSubmit = async (formData: FormDataObject) => {
+    console.log({formData});
+
     if (!formData)
       return;
 
-    console.log({formData});
-    createEmployee(formData);
+    createEmployee(EmployeeObject.parse(formData));
     openSuccessModal("Employee created !");
+
+    return {
+      success: true,
+      errors: {},
+    }
   };
 
   return (
@@ -25,7 +48,17 @@ export default function CreateEmployeePage() {
       </header>
       <main className="container">
         <h2>Create Employee</h2>
-        <CreateEmployeeForm onSubmit={onSubmit} />
+        {isUsStatesLoading || isJobDepartmentsLoading ? (
+          <p>Loading data...</p>
+        ): (
+          <Form
+            onSubmit={onSubmit}
+            schema={getCreateEmployeeForm({
+              usStatesData,
+              jobDepartmentData
+            })}
+          />
+        )}
       </main>
     </>
   );

@@ -1,20 +1,75 @@
-.form {
+.inputTextWrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.inputTextWrapper label {
+  font-weight: bold;
+}
+
+.inputTextWrapper input {
+  transition: border-color 0.1s ease-in-out;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputCheckboxWrapper {
+  display: flex;
+}
+
+.inputCheckboxWrapper label {
+  margin-left: 0.25rem;
+}
+
+.inputField {
+  width: 100%;
+  box-sizing: border-box;
+}
+.errorLabel {
+  color: var(--color-red-2);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.formGroup_row {
+  display: flex;
+  flex-direction: row;
+}
+
+.formGroup_column {
   display: flex;
   flex-direction: column;
 }
 
-.form label {
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 10px;
+.formGroupGap_small {
+  gap: 8px;
 }
 
-.form select, .form input, .form fieldset {
-  box-sizing: border-box;
-  width: 100%;
+.formGroupGap_medium {
+  gap: 16px;
 }
 
-.form button.submitButton {
-  padding: 8px;
-  margin: 12px auto 0;
+.formGroupGap_large {
+  gap: 32px;
+}
+
+.formGroupWithoutBorder {
+  border: none;
+  padding: 0;
+}
+
+.formFooter {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.formFooter > * {
+  flex: 1;
 }
