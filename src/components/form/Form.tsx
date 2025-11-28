@@ -35,6 +35,8 @@ export interface FormSchemaField {
   validator?: ZodType;
   placeholder?: string;
   selectOptions?: SelectMenuOption[]
+  maxLength?: number;
+  max?: number;
 }
 
 export function Form({
@@ -171,6 +173,8 @@ export function Form({
                             ? String(field.state.value) === 'true'
                             : undefined
                         }
+                        maxLength={fieldGroup.fields[fieldName].maxLength}
+                        max={fieldGroup.fields[fieldName].max}
                       />
                     )}
                     {fieldGroup.fields[fieldName].label &&

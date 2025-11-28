@@ -75,7 +75,6 @@ export default function getCreateEmployeeForm({
           label: 'Zip Code',
           defaultValue: '',
           autocomplete: '',
-          type: 'number',
           validator: z.string().min(2, ZodValidationMessage.string.atLeastGivenChars(2)),
         },
       },
