@@ -1,10 +1,11 @@
 import { render } from "@testing-library/react";
 import AppMemoryRouter from "./AppMemoryRouter.tsx";
+import App from "../App.tsx";
 
 export function renderWithRouter(route: string = "/") {
   return (
     render(
-      <AppMemoryRouter route={route} />
+      <App router={<AppMemoryRouter route={route} />} />
     )
   );
 }
