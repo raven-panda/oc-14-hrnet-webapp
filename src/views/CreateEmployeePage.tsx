@@ -26,8 +26,6 @@ export default function CreateEmployeePage() {
   const { data: jobDepartmentData, isLoading: isJobDepartmentsLoading } = useJobDepartmentData();
 
   const onSubmit = async (formData: FormDataObject) => {
-    console.log({formData});
-
     if (!formData)
       return;
 

@@ -80,7 +80,6 @@ export function Form({
         if (result.success) {
           return null;
         }
-        console.log({value});
 
         return { fields: zodErrorsToFieldIssues(result.error) };
       },
