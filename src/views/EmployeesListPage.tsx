@@ -65,7 +65,7 @@ export default function EmployeesListPage() {
       <header className="container">
         <h1>Current Employees</h1>
       </header>
-      <main className="container">
+      <main className="container main-container">
         <FilterableTable columns={columns} className="test-table" dataList={transformedTableData} isLoading={isLoading} />
       </main>
     </>

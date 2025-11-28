@@ -40,17 +40,14 @@ export interface FormSchemaField {
 
 export function Form({
   schema,
-  submitButton = ({ canSubmit }) => (
-    <button type="submit" disabled={!canSubmit} className={styles.submitButton}>
-      Submit
-    </button>
-  ),
+  submitButtonLabel = "Submit",
   cancelButton,
   onSubmit,
   className,
 }: {
   schema: FormSchema;
   submitButton?: (props: SubmitButtonProps) => ReactNode;
+  submitButtonLabel?: string;
   cancelButton?: (props: CancelButtonProps) => ReactNode;
   onSubmit: (value: FormDataObject) => Promise<
     | {
@@ -103,7 +100,7 @@ export function Form({
           className={[
             styles[`formGroup_${fieldGroup.layoutType}`],
             styles[`formGroupGap_${fieldGroup.gap}`] ?? '',
-            !fieldGroup.withBorder ? styles.formGroupWithoutBorder : null
+            !fieldGroup.withBorder ? styles.formGroupWithoutBorder : styles.formGroupWithBorder
           ].filter(style => style).join(' ')}
         >
           {fieldGroup.legend && <legend>{fieldGroup.legend}</legend>}
@@ -132,16 +129,21 @@ export function Form({
                     {fieldGroup.fields[fieldName].type === "select" ? (
                       <SelectMenu
                         id={field.name}
+                        data-testid={field.name}
+                        className={styles.inputSelect}
                         name={field.name}
                         options={fieldGroup.fields[fieldName].selectOptions ?? []}
                         defaultValue={String(fieldGroup.fields[fieldName].defaultValue)}
                         onChange={(e) => {
                           field.handleChange(e.target.value);
+                          console.log('select changed');
+                          
                         }}
                       />
                     ) : (
                       <input
                         id={field.name}
+                        data-testid={field.name}
                         className={[
                           fieldGroup.fields[fieldName].type === 'checkbox'
                             ? styles.checkboxField
@@ -150,7 +152,7 @@ export function Form({
                             ? styles.invalidField
                             : '',
                         ].join(' ')}
-                        type={fieldGroup.fields[fieldName].type}
+                        type={fieldGroup.fields[fieldName].type ?? "text"}
                         autoComplete={fieldGroup.fields[fieldName].autocomplete}
                         placeholder={fieldGroup.fields[fieldName].placeholder}
                         name={field.name}
@@ -201,7 +203,11 @@ export function Form({
       <div className={styles.formFooter}>
         <form.Subscribe
           selector={(state) => [state.canSubmit]}
-          children={([canSubmit]) => submitButton({ canSubmit })}
+          children={([canSubmit]) => (
+            <button type="submit" disabled={!canSubmit} className={styles.submitButton}>
+              {submitButtonLabel}
+            </button>
+          )}
         />
         {cancelButton?.({ reset: form.reset })}
       </div>

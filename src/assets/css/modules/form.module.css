@@ -16,6 +16,9 @@
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid var(--color-grey-3);
+  border-radius: 3px;
+  padding: 6.4px 16px;
 }
 
 .inputCheckboxWrapper {
@@ -31,10 +34,36 @@
   box-sizing: border-box;
 }
 .errorLabel {
-  color: var(--color-red-2);
+  color: var(--color-red-1);
   font-style: normal;
   font-weight: bold;
   font-size: 0.8rem;
+}
+.requiredAsterisk {
+  color: var(--color-red-2);
+}
+
+.inputSelectWrapper {
+  position: relative;
+}
+
+.inputSelect {
+  padding: 6.4px 16px;
+  appearance: none;
+  width: 100%;
+  background-color: var(--color-grey-1);
+  border-color: var(--color-grey-2);
+  color: var(--color-grey-3);
+  border-radius: 3px;
+}
+
+.inputSelectIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-grey-3);
 }
 
 .formGroup_row {
@@ -64,6 +93,10 @@
   padding: 0;
 }
 
+.formGroupWithBorder.formGroup_column {
+  margin-bottom: 16px;
+}
+
 .formFooter {
   display: flex;
   gap: 12px;
@@ -72,4 +105,9 @@
 
 .formFooter > * {
   flex: 1;
+}
+
+.submitButton {
+  flex-grow: 0;
+  padding: 6px 12px;
 }

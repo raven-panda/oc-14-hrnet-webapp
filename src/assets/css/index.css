@@ -1,5 +1,13 @@
 body {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   margin: 0;
+
+  --color-grey-1: #f6f6f6;
+  --color-grey-2: #c5c5c5;
+  --color-grey-3: #454545;
+
+  --color-red-1: #ff4d4d;
+  --color-red-2: #b84646;
 }
 
 #root {
@@ -19,6 +27,10 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.main-container {
+  margin: 30px 0 60px;
 }
 
 .address {

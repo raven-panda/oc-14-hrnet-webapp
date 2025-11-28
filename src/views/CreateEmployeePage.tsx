@@ -44,7 +44,7 @@ export default function CreateEmployeePage() {
         <h1>HRnet</h1>
         <Link to="/employee-list">View Current Employees</Link>
       </header>
-      <main className="container">
+      <main className="container main-container">
         <h2>Create Employee</h2>
         {isUsStatesLoading || isJobDepartmentsLoading ? (
           <p>Loading data...</p>
@@ -55,6 +55,7 @@ export default function CreateEmployeePage() {
               usStatesData,
               jobDepartmentData
             })}
+            submitButtonLabel="Save"
           />
         )}
       </main>
