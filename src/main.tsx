@@ -1,9 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import populateEmployeesLocalStorage from "./data/local-storage-populator/EmployeeLocalStoragePopulator.ts";
+import { environment } from './environment.ts';
+import populateEmployeesLocalStorage from './data/__fixtures__/local-storage/EmployeeLocalStoragePopulator.ts';
 
-if (import.meta.env.VITE_ENABLE_FIXTURE === "true" && import.meta.env.VITE_ENABLE_DATA_MOCK === "true") {
+if (environment.fixtureEnabled && environment.dataMockEnabled) {
   populateEmployeesLocalStorage();
 }
 createRoot(document.getElementById('root')!).render(
