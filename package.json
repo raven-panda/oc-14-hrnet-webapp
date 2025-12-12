@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "gh:deploy": "tsc -b && cross-env VITE_BASE=/oc-14-hrnet-webapp/ vite build && gh-pages -d dist",
+    "predeploy": "cross-env VITE_BASE=/oc-14-hrnet-webapp/ vite build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint . --max-warnings=0 --fix",
     "preview": "vite preview",
     "test": "vitest",

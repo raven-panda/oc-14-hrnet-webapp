@@ -7,6 +7,7 @@ interface ViteTypeOptions {
 }
 
 interface ImportMetaEnv {
+  readonly VITE_BASE: string;
   readonly VITE_ENABLE_FIXTURE: 'true' | 'false';
   readonly VITE_ENABLE_DATA_MOCK: 'true' | 'false';
 }
