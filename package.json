@@ -13,7 +13,7 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@raven_panda/filterable-table": "^1.0.0",
+    "@raven_panda/filterable-table": "^1.0.1",
     "@tanstack/react-form": "^1.25.0",
     "date-format-parse": "^0.2.7",
     "feather-icons-react": "^0.9.0",
