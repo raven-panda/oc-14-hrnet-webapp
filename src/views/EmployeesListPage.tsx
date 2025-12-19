@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import type { Employee } from "../data/api/definitions/Employee";
 import { useEmployees } from "../data/api/hook/useEmployees.ts";
 import { DATE_WITH_SLASH_FORMAT } from "../data/constants/DateFormat.ts";
+import { Link } from "react-router-dom";
 
 export default function EmployeesListPage() {
   const { data, isLoading } = useEmployees();
@@ -73,6 +74,7 @@ export default function EmployeesListPage() {
           isLoading={isLoading}
           dateFormat={DATE_WITH_SLASH_FORMAT}
         />
+        <Link to="/">Home</Link>
       </main>
     </>
   );
