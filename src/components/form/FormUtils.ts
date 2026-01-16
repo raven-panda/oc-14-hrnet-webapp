@@ -64,3 +64,13 @@ export function zodErrorsToFieldIssues(err: z.ZodError<any>): Record<string, Sta
     
   return fields;
 }
+
+export function toValidDate (input?: string | number | Date | null): Date | null {
+  if (input == null)
+    return null;
+  if (input instanceof Date)
+    return Number.isNaN(input.getTime()) ? null : input;
+
+  const d = new Date(String(input));
+  return Number.isNaN(d.getTime()) ? null : d;
+}

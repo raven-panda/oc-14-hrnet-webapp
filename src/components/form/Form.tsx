@@ -1,9 +1,10 @@
 import type { HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from "react";
 import { type StandardSchemaV1Issue, useForm } from '@tanstack/react-form';
-import { extractFormSchemaValues, formatFieldValidators, isFieldRequired, zodErrorsToFieldIssues, } from './FormUtils';
+import { extractFormSchemaValues, formatFieldValidators, isFieldRequired, toValidDate, zodErrorsToFieldIssues, } from './FormUtils';
 import styles from '../../assets/css/modules/form.module.css';
 import z, { type ZodType } from 'zod';
 import SelectMenu, { type SelectMenuOption } from "./SelectMenu";
+import { format as formatDate } from "date-format-parse";
 
 export type FormDataValue = string | number | boolean | object;
 export type FormDataObject = Record<string, FormDataValue>;
@@ -62,13 +63,24 @@ export function Form({
     defaultValues: extractFormSchemaValues(schema),
     validators: {
       onSubmitAsync: async ({ value }) => {
-        
+        schema.forEach(fieldgroup => {
+          const fieldsKeys = Object.keys(fieldgroup.fields);
+          fieldsKeys.forEach(key => {
+            if (value[key] && fieldgroup.fields[key]?.type === 'date') {
+              const validDate = toValidDate(value[key] as string);
+              if (validDate)
+                value[key] = validDate;
+            }
+          })
+        });
+
         const response = await onSubmit(value);
         if (!response) return null;
 
         return { fields: response.errors };
       },
       onChange: ({ value }) => {
+        console.log({value})
         const zodShape = formatFieldValidators(schema);
 
         const zodSchema = z.object(zodShape as Record<string, z.ZodTypeAny>);
@@ -165,9 +177,11 @@ export function Form({
                           }
                         }}
                         value={
-                          fieldGroup.fields[fieldName].type !== 'checkbox'
-                            ? String(field.state.value)
-                            : undefined
+                          fieldGroup.fields[fieldName].type === 'date' && field.state.value instanceof Date ?
+                            formatDate(field.state.value, 'YYYY-MM-DD')
+                            : fieldGroup.fields[fieldName].type !== 'checkbox'
+                              ? String(field.state.value)
+                              : undefined
                         }
                         checked={
                           fieldGroup.fields[fieldName].type === 'checkbox'
